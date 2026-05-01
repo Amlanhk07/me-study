@@ -1,1344 +1,789 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>চাকরির প্রস্তুতি | Job Prep Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5c518">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JobPrep">
+<meta name="description" content="Bangladesh 9th-13th Grade Govt Job Preparation Tracker">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>চাকরির প্রস্তুতি ট্র্যাকার</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:wght@400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --card: #1a1a26;
-    --border: #2a2a3d;
-    --accent: #f5c518;
-    --accent2: #4fffb0;
-    --accent3: #ff6b6b;
-    --accent4: #7c6aff;
-    --text: #e8e8f0;
-    --muted: #6b6b8a;
-    --success: #4fffb0;
-    --warn: #f5c518;
-    --danger: #ff6b6b;
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* GRID BACKGROUND */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(124,106,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124,106,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* HEADER */
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 28px 0 20px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .logo {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .logo-en {
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .logo-bn {
-    font-family: 'Tiro Bangla', serif;
-    font-size: 26px;
-    font-weight: 700;
-    line-height: 1.1;
-    background: linear-gradient(135deg, var(--accent), var(--accent4));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .header-stats {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .hstat {
-    text-align: center;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 18px;
-  }
-
-  .hstat-num {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--accent);
-    display: block;
-  }
-
-  .hstat-label {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  /* TABS */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
-
-  .tab {
-    padding: 9px 20px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    transition: all 0.2s;
-  }
-
-  .tab.active {
-    background: var(--accent);
-    color: #0a0a0f;
-    border-color: var(--accent);
-  }
-
-  .tab:hover:not(.active) {
-    border-color: var(--accent4);
-    color: var(--text);
-  }
-
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* CARDS */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 20px;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .badge-gold { background: rgba(245,197,24,0.15); color: var(--accent); border: 1px solid rgba(245,197,24,0.3); }
-  .badge-green { background: rgba(79,255,176,0.15); color: var(--accent2); border: 1px solid rgba(79,255,176,0.3); }
-  .badge-red { background: rgba(255,107,107,0.15); color: var(--accent3); border: 1px solid rgba(255,107,107,0.3); }
-  .badge-purple { background: rgba(124,106,255,0.15); color: var(--accent4); border: 1px solid rgba(124,106,255,0.3); }
-
-  /* SCHEDULE */
-  .schedule-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  @media (max-width: 700px) {
-    .schedule-grid { grid-template-columns: 1fr; }
-    header { flex-direction: column; align-items: flex-start; }
-  }
-
-  .time-block {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 14px;
-    background: var(--surface);
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    transition: border-color 0.2s;
-  }
-
-  .time-block:hover { border-color: var(--accent4); }
-
-  .time-pill {
-    background: var(--accent);
-    color: #0a0a0f;
-    border-radius: 8px;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 800;
-    white-space: nowrap;
-    min-width: 90px;
-    text-align: center;
-  }
-
-  .time-pill.gym { background: var(--accent3); }
-  .time-pill.rest { background: var(--accent4); color: #fff; }
-  .time-pill.work { background: var(--accent2); color: #0a0a0f; }
-  .time-pill.off { background: var(--muted); color: #0a0a0f; }
-
-  .block-info strong {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 3px;
-  }
-
-  .block-info span {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'Tiro Bangla', serif;
-  }
-
-  /* PROGRESS TRACKER */
-  .subject-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-
-  .subject-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .subject-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-  .subject-card.bangla::before { background: linear-gradient(90deg, #f5c518, #ff9f43); }
-  .subject-card.english::before { background: linear-gradient(90deg, #4fffb0, #00d2ff); }
-  .subject-card.math::before { background: linear-gradient(90deg, #7c6aff, #a855f7); }
-  .subject-card.gk::before { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
-  .subject-card.computer::before { background: linear-gradient(90deg, #00d2ff, #4fffb0); }
-  .subject-card.technical::before { background: linear-gradient(90deg, #ffa726, #ff7043); }
-
-  .subject-name {
-    font-size: 13px;
-    font-weight: 800;
-    margin-bottom: 4px;
-    letter-spacing: 1px;
-  }
-
-  .subject-bn {
-    font-family: 'Tiro Bangla', serif;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
-
-  .progress-bar-wrap {
-    background: var(--border);
-    border-radius: 99px;
-    height: 6px;
-    margin-bottom: 10px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    border-radius: 99px;
-    transition: width 0.6s ease;
-  }
-
-  .bangla .progress-bar-fill { background: linear-gradient(90deg, #f5c518, #ff9f43); }
-  .english .progress-bar-fill { background: linear-gradient(90deg, #4fffb0, #00d2ff); }
-  .math .progress-bar-fill { background: linear-gradient(90deg, #7c6aff, #a855f7); }
-  .gk .progress-bar-fill { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
-  .computer .progress-bar-fill { background: linear-gradient(90deg, #00d2ff, #4fffb0); }
-  .technical .progress-bar-fill { background: linear-gradient(90deg, #ffa726, #ff7043); }
-
-  .subject-stats {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .topic-list {
-    margin-top: 14px;
-    border-top: 1px solid var(--border);
-    padding-top: 12px;
-  }
-
-  .topic-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 0;
-    font-size: 12px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.15s;
-  }
-
-  .topic-item:hover { background: rgba(255,255,255,0.03); padding-left: 6px; }
-
-  .topic-check {
-    width: 16px; height: 16px;
-    border-radius: 4px;
-    border: 1.5px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-    font-size: 10px;
-  }
-
-  .topic-item.done .topic-check {
-    background: var(--accent2);
-    border-color: var(--accent2);
-    color: #0a0a0f;
-  }
-
-  .topic-item.done .topic-text {
-    text-decoration: line-through;
-    color: var(--muted);
-  }
-
-  .topic-text {
-    font-family: 'Tiro Bangla', serif;
-    font-size: 12px;
-    line-height: 1.4;
-  }
-
-  /* BOOKS SECTION */
-  .book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
-  }
-
-  .book-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .book-subject {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .book-title {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: var(--text);
-  }
-
-  .book-author {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .book-note {
-    font-size: 11px;
-    color: var(--accent2);
-    background: rgba(79,255,176,0.08);
-    border-radius: 6px;
-    padding: 6px 10px;
-    margin-top: 4px;
-  }
-
-  /* DAILY LOG */
-  .log-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: 600px) { .log-form { grid-template-columns: 1fr; } }
-
-  .form-group label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-    font-weight: 700;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    border-color: var(--accent4);
-  }
-
-  .form-group textarea { resize: vertical; min-height: 70px; }
-
-  .form-group select option { background: var(--card); }
-
-  .btn {
-    padding: 12px 24px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 1px;
-    transition: all 0.2s;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #0a0a0f;
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,197,24,0.3); }
-
-  .btn-danger {
-    background: transparent;
-    color: var(--danger);
-    border: 1px solid var(--danger);
-    font-size: 11px;
-    padding: 6px 12px;
-  }
-
-  .log-entries { display: flex; flex-direction: column; gap: 10px; }
-
-  .log-entry {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .log-date {
-    font-size: 11px;
-    color: var(--accent);
-    font-weight: 700;
-    min-width: 80px;
-  }
-
-  .log-body { flex: 1; }
-
-  .log-subject {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: var(--accent4);
-    font-weight: 700;
-    margin-bottom: 3px;
-  }
-
-  .log-note { font-size: 12px; color: var(--muted); font-family: 'Tiro Bangla', serif; }
-
-  .log-hours {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--accent2);
-    white-space: nowrap;
-  }
-
-  /* ROUTINE TABLE */
-  .routine-table { width: 100%; border-collapse: collapse; }
-
-  .routine-table th {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    font-weight: 700;
-  }
-
-  .routine-table td {
-    padding: 10px 14px;
-    border-bottom: 1px solid rgba(42,42,61,0.5);
-    font-size: 13px;
-    vertical-align: top;
-  }
-
-  .routine-table tr:hover td { background: rgba(124,106,255,0.04); }
-
-  .phase-label {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  /* STREAK */
-  .streak-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-
-  .streak-day {
-    aspect-ratio: 1;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-
-  .streak-day.studied {
-    background: var(--accent2);
-    color: #0a0a0f;
-    border-color: var(--accent2);
-  }
-
-  .streak-day.rest-day {
-    background: rgba(124,106,255,0.15);
-    border-color: rgba(124,106,255,0.3);
-    color: var(--accent4);
-  }
-
-  .streak-day:hover { transform: scale(1.1); }
-
-  .streak-month-label {
-    font-size: 10px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  /* OVERVIEW */
-  .overview-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stat-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-  }
-  .stat-card:nth-child(1)::after { background: var(--accent); }
-  .stat-card:nth-child(2)::after { background: var(--accent2); }
-  .stat-card:nth-child(3)::after { background: var(--accent4); }
-  .stat-card:nth-child(4)::after { background: var(--accent3); }
-
-  .stat-num {
-    font-size: 32px;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-
-  /* ALERT BOX */
-  .alert {
-    padding: 14px 18px;
-    border-radius: 10px;
-    font-size: 13px;
-    margin-bottom: 16px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    font-family: 'Tiro Bangla', serif;
-  }
-
-  .alert-gold {
-    background: rgba(245,197,24,0.1);
-    border: 1px solid rgba(245,197,24,0.25);
-    color: var(--accent);
-  }
-
-  .alert-icon { font-size: 16px; flex-shrink: 0; }
-
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* Separator */
-  .sep { height: 1px; background: var(--border); margin: 20px 0; }
-
-  /* Weekday labels */
-  .weekday-labels {
-    display: grid;
-    grid-template-columns: repeat(7,1fr);
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-  .weekday-labels span {
-    text-align: center;
-    font-size: 9px;
-    color: var(--muted);
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  /* Notification */
-  #toast {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: var(--accent);
-    color: #0a0a0f;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 13px;
-    transform: translateY(80px);
-    opacity: 0;
-    transition: all 0.3s;
-    z-index: 999;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
-
-  .phase-strip {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .phase-num {
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--border);
-    line-height: 1;
-  }
-
-  .phase-info { flex: 1; }
-  .phase-info h3 { font-size: 14px; font-weight: 800; color: var(--accent); margin-bottom: 2px; }
-  .phase-info p { font-size: 12px; color: var(--muted); font-family: 'Tiro Bangla', serif; }
-
-  .phase-weeks {
-    font-size: 11px;
-    color: var(--accent2);
-    font-weight: 700;
-    background: rgba(79,255,176,0.1);
-    padding: 4px 10px;
-    border-radius: 6px;
-  }
-
-  h2.section-title {
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .topic-section {
-    margin-bottom: 8px;
-  }
-
-  .topic-section-header {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--accent4);
-    padding: 8px 0 4px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 4px;
-  }
-
+/* ===== RESET & ROOT ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131e;
+  --card: #1b1b2a;
+  --card2: #202032;
+  --border: #2c2c44;
+  --accent: #f5c518;
+  --accent2: #3dffa0;
+  --accent3: #ff6b6b;
+  --accent4: #7c6aff;
+  --text: #ebebf5;
+  --text2: #b0b0cc;
+  --muted: #5a5a7a;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --nav-h: 68px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  padding-bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(124,106,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,106,255,0.025) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ===== LAYOUT ===== */
+.page { display: none; padding: 16px; max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+.page.active { display: block; }
+
+/* ===== HEADER ===== */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,15,0.88);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.app-title { display: flex; flex-direction: column; gap: 1px; }
+.app-title-en { font-size: 10px; letter-spacing: 3px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+.app-title-bn { font-family: 'Tiro Bangla', serif; font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent4)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.header-pills { display: flex; gap: 8px; align-items: center; }
+.hpill { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; text-align: center; }
+.hpill-num { font-size: 16px; font-weight: 800; color: var(--accent); line-height: 1; display: block; }
+.hpill-label { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; display: block; margin-top: 1px; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(13,13,20,0.96);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-top: 1px solid var(--border);
+  display: flex; align-items: stretch;
+  padding-bottom: var(--safe-b);
+  height: calc(var(--nav-h) + var(--safe-b));
+}
+
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; cursor: pointer; padding: 8px 4px;
+  border: none; background: none; color: var(--muted);
+  font-family: 'Syne', sans-serif; transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+.nav-item.active { color: var(--accent); }
+.nav-item.active::before {
+  content: ''; position: absolute; top: 0; left: 20%; right: 20%; height: 2px;
+  background: var(--accent); border-radius: 0 0 4px 4px;
+}
+
+.nav-icon { font-size: 20px; line-height: 1; }
+.nav-label { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 11px; font-weight: 800; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+
+.card-title span { color: var(--muted); font-weight: 400; letter-spacing: 0; font-size: 11px; text-transform: none; }
+
+/* ===== STAT GRID ===== */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+.stat-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px 14px;
+  position: relative; overflow: hidden;
+}
+
+.stat-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+.stat-card:nth-child(1)::after { background: var(--accent); }
+.stat-card:nth-child(2)::after { background: var(--accent2); }
+.stat-card:nth-child(3)::after { background: var(--accent4); }
+.stat-card:nth-child(4)::after { background: var(--accent3); }
+
+.stat-num { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+/* ===== ALERT ===== */
+.alert {
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 14px; line-height: 1.7; margin-bottom: 16px;
+  display: flex; gap: 10px;
+  font-family: 'Tiro Bangla', serif;
+}
+.alert-gold { background: rgba(245,197,24,0.08); border: 1px solid rgba(245,197,24,0.2); color: #d4aa10; }
+.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.badge-gold { background: rgba(245,197,24,0.12); color: var(--accent); border: 1px solid rgba(245,197,24,0.25); }
+.badge-green { background: rgba(61,255,160,0.1); color: var(--accent2); border: 1px solid rgba(61,255,160,0.2); }
+.badge-purple { background: rgba(124,106,255,0.12); color: var(--accent4); border: 1px solid rgba(124,106,255,0.25); }
+.badge-red { background: rgba(255,107,107,0.1); color: var(--accent3); border: 1px solid rgba(255,107,107,0.2); }
+
+/* ===== PROGRESS ===== */
+.prog-row { margin-bottom: 14px; }
+.prog-row:last-child { margin-bottom: 0; }
+.prog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.prog-name { font-size: 13px; font-weight: 700; }
+.prog-pct { font-size: 11px; color: var(--muted); }
+.prog-track { background: var(--border); border-radius: 99px; height: 7px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
+.prog-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* Subject colors */
+.fill-bangla { background: linear-gradient(90deg, #f5c518, #ff9f43); }
+.fill-english { background: linear-gradient(90deg, #3dffa0, #00d2ff); }
+.fill-math { background: linear-gradient(90deg, #7c6aff, #a855f7); }
+.fill-gk { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+.fill-computer { background: linear-gradient(90deg, #00d2ff, #3dffa0); }
+.fill-technical { background: linear-gradient(90deg, #ffa726, #ff7043); }
+
+/* ===== STREAK GRID ===== */
+.weekday-labels { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; margin-bottom: 5px; }
+.weekday-labels span { text-align: center; font-size: 9px; color: var(--muted); font-weight: 700; letter-spacing: 0.5px; }
+
+.streak-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
+.sday {
+  aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; background: var(--surface); border: 1px solid var(--border);
+  color: var(--muted); cursor: pointer; transition: transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sday:active { transform: scale(0.9); }
+.sday.studied { background: var(--accent2); color: #0a0a0f; border-color: var(--accent2); }
+.sday.rest { background: rgba(124,106,255,0.15); border-color: rgba(124,106,255,0.3); color: var(--accent4); }
+
+/* ===== SCHEDULE ===== */
+.time-block {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px; background: var(--surface);
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.time-pill {
+  background: var(--accent); color: #0a0a0f;
+  border-radius: 7px; padding: 5px 10px;
+  font-size: 11px; font-weight: 800;
+  white-space: nowrap; min-width: 90px; text-align: center; flex-shrink: 0; line-height: 1.4;
+}
+.time-pill.gym { background: var(--accent3); color: #fff; }
+.time-pill.work { background: var(--accent2); color: #0a0a0f; }
+.time-pill.rest { background: var(--accent4); color: #fff; }
+.time-pill.off { background: var(--muted); color: var(--bg); }
+
+.block-info strong { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+.block-info span { font-family: 'Tiro Bangla', serif; font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+.section-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--muted);
+  margin: 20px 0 12px;
+}
+
+/* ===== SUBJECT CARDS (Topics) ===== */
+.subject-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+  position: relative; overflow: hidden;
+}
+.subject-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.subject-card.bangla::before { background: linear-gradient(90deg, #f5c518, #ff9f43); }
+.subject-card.english::before { background: linear-gradient(90deg, #3dffa0, #00d2ff); }
+.subject-card.math::before { background: linear-gradient(90deg, #7c6aff, #a855f7); }
+.subject-card.gk::before { background: linear-gradient(90deg, #ff6b6b, #ee5a24); }
+.subject-card.computer::before { background: linear-gradient(90deg, #00d2ff, #3dffa0); }
+.subject-card.technical::before { background: linear-gradient(90deg, #ffa726, #ff7043); }
+
+.subject-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 12px; gap: 10px;
+}
+.subject-name-wrap {}
+.subject-en { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
+.subject-bn { font-family: 'Tiro Bangla', serif; font-size: 14px; color: var(--text2); margin-top: 2px; }
+
+.subject-prog-num { font-size: 22px; font-weight: 800; color: var(--accent); }
+
+.collapse-btn {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-between; gap: 8px;
+  color: var(--muted); font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; margin-top: 14px; padding: 8px 0 0;
+  border-top: 1px solid var(--border);
+  -webkit-tap-highlight-color: transparent;
+}
+.collapse-btn span { flex: 1; text-align: left; }
+
+.topic-list { margin-top: 10px; }
+
+.topic-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 8px; border-radius: 8px;
+  cursor: pointer; transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.topic-item:active { background: rgba(255,255,255,0.04); }
+
+.topic-check {
+  width: 20px; height: 20px; border-radius: 5px;
+  border: 1.5px solid var(--border); display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; margin-top: 1px;
+  transition: all 0.2s; font-size: 11px; font-weight: 800;
+}
+.topic-item.done .topic-check { background: var(--accent2); border-color: var(--accent2); color: #0a0a0f; }
+.topic-item.done .topic-text { text-decoration: line-through; color: var(--muted); }
+.topic-text { font-family: 'Tiro Bangla', serif; font-size: 14px; line-height: 1.6; color: var(--text); }
+
+/* ===== BOOKS ===== */
+.book-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px; margin-bottom: 10px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.book-subj { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.book-title { font-size: 15px; font-weight: 700; line-height: 1.4; color: var(--text); }
+.book-author { font-size: 12px; color: var(--muted); }
+.book-note { font-size: 12px; color: var(--accent2); background: rgba(61,255,160,0.07); border-radius: 7px; padding: 8px 12px; line-height: 1.5; }
+
+/* ===== LOG FORM ===== */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
+}
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 13px 15px;
+  color: var(--text); font-family: 'Syne', sans-serif; font-size: 15px;
+  outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none; appearance: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--accent4);
+}
+.form-group textarea { resize: vertical; min-height: 90px; font-family: 'Tiro Bangla', serif; font-size: 15px; }
+.form-group select option { background: var(--card); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 15px 24px; border-radius: var(--radius-sm);
+  border: none; cursor: pointer; font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 14px; letter-spacing: 1px; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--accent); color: #0a0a0f; }
+.btn-danger { background: rgba(255,107,107,0.1); color: var(--accent3); border: 1px solid rgba(255,107,107,0.2); }
+
+.log-entry {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.log-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.log-date { font-size: 11px; color: var(--accent); font-weight: 700; }
+.log-hours { font-size: 15px; font-weight: 800; color: var(--accent2); }
+.log-subject { font-size: 11px; color: var(--accent4); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
+.log-note { font-family: 'Tiro Bangla', serif; font-size: 13px; color: var(--text2); line-height: 1.6; }
+.log-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 4px; }
+
+/* ===== ROADMAP ===== */
+.phase-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 18px 16px;
+  margin-bottom: 10px; display: flex; gap: 16px; align-items: flex-start;
+}
+.phase-num { font-size: 40px; font-weight: 800; color: var(--border); line-height: 1; flex-shrink: 0; }
+.phase-info { flex: 1; }
+.phase-info h3 { font-size: 14px; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
+.phase-info p { font-family: 'Tiro Bangla', serif; font-size: 14px; color: var(--text2); line-height: 1.7; }
+.phase-wks { margin-top: 8px; }
+
+.resource-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 10px;
+}
+.resource-card h4 { font-size: 13px; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
+.resource-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ===== EXAM TABLE ===== */
+.exam-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.exam-table th {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); padding: 10px 12px; text-align: left;
+  border-bottom: 1px solid var(--border); font-weight: 700;
+}
+.exam-table td { padding: 10px 12px; border-bottom: 1px solid rgba(44,44,68,0.5); vertical-align: middle; }
+.exam-table tr:last-child td { border-bottom: none; }
+.exam-table tr:hover td { background: rgba(124,106,255,0.04); }
+
+.sep { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* ===== INSTALL BANNER ===== */
+#install-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  background: var(--accent); color: #0a0a0f;
+  padding: 12px 16px; display: none; align-items: center; gap: 12px;
+  box-shadow: 0 4px 20px rgba(245,197,24,0.4);
+}
+#install-banner.show { display: flex; }
+#install-banner p { flex: 1; font-size: 13px; font-weight: 700; line-height: 1.4; }
+#install-banner button {
+  background: #0a0a0f; color: var(--accent);
+  border: none; border-radius: 8px; padding: 8px 14px;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 12px; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+}
+#install-dismiss {
+  background: none; border: none; font-size: 20px; color: #0a0a0f;
+  cursor: pointer; flex-shrink: 0; padding: 0 4px; font-weight: 800;
+}
+
+/* ===== TOAST ===== */
+#toast {
+  position: fixed; bottom: calc(var(--nav-h) + var(--safe-b) + 16px); left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--card2); border: 1px solid var(--border);
+  color: var(--text); padding: 12px 20px; border-radius: 99px;
+  font-size: 13px; font-weight: 700; opacity: 0; transition: all 0.3s;
+  white-space: nowrap; pointer-events: none; z-index: 250;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ===== WEEKLY TABLE scroll ===== */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius-sm); }
+.table-wrap::-webkit-scrollbar { height: 3px; }
+
+/* ===== EMPTY STATE ===== */
+.empty { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 360px) {
+  .stat-num { font-size: 24px; }
+  .time-pill { min-width: 78px; font-size: 10px; }
+  .block-info strong { font-size: 13px; }
+}
 </style>
 </head>
 <body>
 
-<div id="toast"></div>
-
-<div class="container">
-  <header>
-    <div class="logo">
-      <span class="logo-en">Bangladesh Gov Job Prep</span>
-      <span class="logo-bn">চাকরির প্রস্তুতি ট্র্যাকার</span>
-    </div>
-    <div class="header-stats">
-      <div class="hstat">
-        <span class="hstat-num" id="stat-days">0</span>
-        <span class="hstat-label">Days Studied</span>
-      </div>
-      <div class="hstat">
-        <span class="hstat-num" id="stat-hours">0h</span>
-        <span class="hstat-label">Total Hours</span>
-      </div>
-      <div class="hstat">
-        <span class="hstat-num" id="stat-topics">0%</span>
-        <span class="hstat-label">Topics Done</span>
-      </div>
-      <div class="hstat">
-        <span class="hstat-num" id="stat-streak">🔥0</span>
-        <span class="hstat-label">Streak</span>
-      </div>
-    </div>
-  </header>
-
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('overview')">📊 Overview</button>
-    <button class="tab" onclick="switchTab('schedule')">⏰ Daily Routine</button>
-    <button class="tab" onclick="switchTab('topics')">📚 Topics</button>
-    <button class="tab" onclick="switchTab('books')">📖 Book List</button>
-    <button class="tab" onclick="switchTab('log')">✏️ Daily Log</button>
-    <button class="tab" onclick="switchTab('roadmap')">🗺️ Roadmap</button>
-  </div>
-
-  <!-- OVERVIEW TAB -->
-  <div id="tab-overview" class="tab-content active">
-
-    <div class="alert alert-gold">
-      <span class="alert-icon">⚡</span>
-      <span>৯ম–১৩তম গ্রেডের জব পরীক্ষায় বিগত বছরের প্রশ্ন থেকে ৪০–৫০% প্রশ্ন কমন থাকে। তাই প্রতিদিন অন্তত ১ ঘণ্টা বিগত প্রশ্ন বিশ্লেষণে রাখুন। ৮–১০ মাস নিয়মিত পড়াশোনাই সাফল্য নিশ্চিত করে।</span>
-    </div>
-
-    <div class="overview-grid">
-      <div class="stat-card">
-        <div class="stat-num" id="ov-days" style="color:var(--accent)">0</div>
-        <div class="stat-label">Study Days</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="ov-hours" style="color:var(--accent2)">0</div>
-        <div class="stat-label">Hours Logged</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="ov-topics" style="color:var(--accent4)">0</div>
-        <div class="stat-label">Topics Cleared</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="ov-streak" style="color:var(--accent3)">0</div>
-        <div class="stat-label">Current Streak</div>
-      </div>
-    </div>
-
-    <div class="two-col">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Subject Progress</span>
-        </div>
-        <div id="subject-progress-overview"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">This Week Streak</span>
-        </div>
-        <div class="weekday-labels">
-          <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span>
-          <span>THU</span><span>FRI</span><span>SAT</span>
-        </div>
-        <div class="streak-grid" id="streak-week"></div>
-        <p style="font-size:11px; color:var(--muted); margin-top:10px;">
-          🟩 Studied (5h) &nbsp; 🟪 Rest day (Sun/Wed) &nbsp; ⬜ Not yet
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Exam Pattern at a Glance</span>
-        <span class="badge badge-gold">100 + 200 + Viva</span>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="routine-table">
-          <thead>
-            <tr>
-              <th>Stage</th><th>Subject</th><th>Marks</th><th>Pass Mark</th><th>Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td rowspan="5"><span class="phase-label badge-gold">Prelim</span></td>
-              <td style="font-family:'Tiro Bangla',serif">বাংলা</td><td>20</td><td>40%</td><td rowspan="5">1 hr</td></tr>
-            <tr><td>English</td><td>20</td><td>40%</td></tr>
-            <tr><td style="font-family:'Tiro Bangla',serif">সাধারণ জ্ঞান</td><td>20</td><td>40%</td></tr>
-            <tr><td>Technical/Professional</td><td>40</td><td>40%</td></tr>
-            <tr><td><strong>Total</strong></td><td><strong>100</strong></td><td></td></tr>
-            <tr><td rowspan="5"><span class="phase-label badge-purple">Written</span></td>
-              <td style="font-family:'Tiro Bangla',serif">বাংলা</td><td>40</td><td>25%</td><td rowspan="5">4 hrs</td></tr>
-            <tr><td>English</td><td>40</td><td>25%</td></tr>
-            <tr><td style="font-family:'Tiro Bangla',serif">সাধারণ জ্ঞান</td><td>40</td><td>25%</td></tr>
-            <tr><td>Technical/Professional</td><td>80</td><td>40%</td></tr>
-            <tr><td><strong>Total</strong></td><td><strong>200</strong></td><td>Overall 45%</td></tr>
-            <tr><td><span class="phase-label badge-green">Viva</span></td>
-              <td>9th Grade</td><td>100</td><td>50%</td><td>—</td></tr>
-            <tr><td></td><td>10th–13th Grade</td><td>50</td><td>50%</td><td>—</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCHEDULE TAB -->
-  <div id="tab-schedule" class="tab-content">
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Daily Schedule</span>
-        <span class="badge badge-gold">5 hrs study / day</span>
-      </div>
-
-      <div class="alert alert-gold">
-        <span class="alert-icon">📌</span>
-        <span>রবিবার ও বুধবার = রেস্ট ডে (শুধুমাত্র ১ ঘণ্টা পত্রিকা / কারেন্ট অ্যাফেয়ার্স রিভিউ)। বাকি ৫ দিন = মূল পড়াশোনা।</span>
-      </div>
-
-      <h2 class="section-title" style="margin-top:4px">Weekdays (Mon, Tue, Thu, Fri, Sat) — 5 Hours</h2>
-      <div class="schedule-grid">
-        <div class="time-block">
-          <div class="time-pill work">6:00–9:00</div>
-          <div class="block-info">
-            <strong>Remote Job (Work)</strong>
-            <span>সকালে অফিসের কাজ শুরু</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill" style="background:var(--accent)">9:00–10:00</div>
-          <div class="block-info">
-            <strong>Study Block 1 — বাংলা / English</strong>
-            <span>গ্রামার, ব্যাকরণ, সাহিত্য (alternating daily)</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill work">10:00–1:00</div>
-          <div class="block-info">
-            <strong>Remote Job (Work continues)</strong>
-            <span>অফিস সময় চলমান</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill" style="background:var(--accent)">1:00–2:00</div>
-          <div class="block-info">
-            <strong>Study Block 2 — গণিত / মানসিক দক্ষতা</strong>
-            <span>Lunch break-এ পাটিগণিত, বীজগণিত, জ্যামিতি</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill work">2:00–5:00</div>
-          <div class="block-info">
-            <strong>Remote Job (Afternoon)</strong>
-            <span>অফিস শেষ পর্যায়</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill gym">5:00–7:00</div>
-          <div class="block-info">
-            <strong>Gym 💪</strong>
-            <span>২ ঘণ্টা ব্যায়াম — অডিও নোট / পডকাস্ট শুনতে পারেন</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill" style="background:var(--accent)">7:30–9:30</div>
-          <div class="block-info">
-            <strong>Study Block 3 — সাধারণ জ্ঞান + কম্পিউটার</strong>
-            <span>বাংলাদেশ ও আন্তর্জাতিক বিষয়াবলি, ICT</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill" style="background:var(--accent)">9:30–10:30</div>
-          <div class="block-info">
-            <strong>Study Block 4 — MCQ Practice / Past Papers</strong>
-            <span>বিগত বছরের প্রশ্ন বিশ্লেষণ ও মডেল টেস্ট</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill" style="background:var(--accent)">10:30–11:30</div>
-          <div class="block-info">
-            <strong>Study Block 5 — Technical / Written Practice</strong>
-            <span>রচনা, পত্র লিখন, বঙ্গানুবাদ, টেকনিক্যাল বিষয়</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill rest">11:30+</div>
-          <div class="block-info">
-            <strong>Wind Down & Sleep</strong>
-            <span>পরের দিনের প্ল্যান করুন, ঘুমান</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-
-      <h2 class="section-title">Sunday & Wednesday — Rest Day (1 Hour Max)</h2>
-      <div class="schedule-grid">
-        <div class="time-block">
-          <div class="time-pill off">Morning</div>
-          <div class="block-info">
-            <strong>Complete Rest / Recovery</strong>
-            <span>গ্রামার বা কোনো ভারী পড়া নয়</span>
-          </div>
-        </div>
-        <div class="time-block">
-          <div class="time-pill" style="background:var(--accent); font-size:10px;">1 hr only</div>
-          <div class="block-info">
-            <strong>Current Affairs Review</strong>
-            <span>প্রথম আলো / Daily Star পড়ুন + সাপ্তাহিক রিভিশন নোট করুন</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-
-      <h2 class="section-title">Weekly Subject Distribution (5 Study Days)</h2>
-      <div style="overflow-x:auto;">
-        <table class="routine-table">
-          <thead>
-            <tr><th>Block</th><th>Mon</th><th>Tue</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Block 1 (1h)</strong></td>
-              <td style="color:var(--accent)">বাংলা ব্যাকরণ</td>
-              <td style="color:var(--accent2)">English Grammar</td>
-              <td style="color:var(--accent)">বাংলা সাহিত্য</td>
-              <td style="color:var(--accent2)">English Writing</td>
-              <td style="color:var(--accent)">বাংলা Revision</td>
-            </tr>
-            <tr>
-              <td><strong>Block 2 (1h)</strong></td>
-              <td style="color:var(--accent4)">পাটিগণিত</td>
-              <td style="color:var(--accent4)">বীজগণিত</td>
-              <td style="color:var(--accent4)">জ্যামিতি</td>
-              <td style="color:var(--accent4)">মানসিক দক্ষতা</td>
-              <td style="color:var(--accent4)">গণিত Revision</td>
-            </tr>
-            <tr>
-              <td><strong>Block 3 (2h)</strong></td>
-              <td style="color:var(--accent3)">বাংলাদেশ বিষয়</td>
-              <td style="color:var(--accent3)">আন্তর্জাতিক</td>
-              <td style="color:var(--accent3)">বিজ্ঞান + ICT</td>
-              <td style="color:var(--accent3)">GK + কম্পিউটার</td>
-              <td style="color:var(--accent3)">Full MCQ Mock</td>
-            </tr>
-            <tr>
-              <td><strong>Block 4–5 (1h)</strong></td>
-              <td>Past Papers</td>
-              <td>Written Practice</td>
-              <td>Past Papers</td>
-              <td>Viva Prep</td>
-              <td>Weak Area Fix</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOPICS TAB -->
-  <div id="tab-topics" class="tab-content">
-    <div class="subject-grid" id="topics-container"></div>
-  </div>
-
-  <!-- BOOKS TAB -->
-  <div id="tab-books" class="tab-content">
-    <div class="alert alert-gold">
-      <span class="alert-icon">📚</span>
-      <span>নিচের বইগুলো বিদ্যাবাড়ি গাইডলাইন, অভিজ্ঞ পরীক্ষার্থীদের রিভিউ এবং প্রতিযোগিতামূলক পরীক্ষার বিশ্লেষণের ভিত্তিতে বাছাই করা হয়েছে।</span>
-    </div>
-    <div class="book-grid" id="books-container"></div>
-  </div>
-
-  <!-- LOG TAB -->
-  <div id="tab-log" class="tab-content">
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Log Today's Study</span>
-      </div>
-      <div class="log-form">
-        <div class="form-group">
-          <label>Date</label>
-          <input type="date" id="log-date">
-        </div>
-        <div class="form-group">
-          <label>Subject</label>
-          <select id="log-subject">
-            <option value="বাংলা">বাংলা</option>
-            <option value="English">English</option>
-            <option value="গণিত">গণিত ও মানসিক দক্ষতা</option>
-            <option value="সাধারণ জ্ঞান">সাধারণ জ্ঞান</option>
-            <option value="কম্পিউটার">কম্পিউটার ও ICT</option>
-            <option value="Technical">Technical / Professional</option>
-            <option value="Mock Test">Mock Test / Past Papers</option>
-            <option value="Revision">Revision</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Hours Studied</label>
-          <input type="number" id="log-hours" min="0.5" max="8" step="0.5" placeholder="e.g. 2.5">
-        </div>
-        <div class="form-group">
-          <label>Mood</label>
-          <select id="log-mood">
-            <option>🔥 On Fire</option>
-            <option>😊 Good</option>
-            <option>😐 Okay</option>
-            <option>😓 Tired</option>
-          </select>
-        </div>
-        <div class="form-group" style="grid-column: 1/-1;">
-          <label>Notes (টপিক / কী পড়লেন)</label>
-          <textarea id="log-note" placeholder="আজকে কোন টপিক পড়লেন, কী শিখলেন..."></textarea>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="addLog()">+ LOG ENTRY</button>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Study History</span>
-        <button class="btn btn-danger" onclick="clearLogs()">Clear All</button>
-      </div>
-      <div class="log-entries" id="log-entries">
-        <p style="color:var(--muted); font-size:13px; text-align:center; padding:20px;">No entries yet. Start logging!</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ROADMAP TAB -->
-  <div id="tab-roadmap" class="tab-content">
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">10-Month Roadmap</span>
-        <span class="badge badge-green">~40 weeks</span>
-      </div>
-
-      <div class="phase-strip">
-        <div class="phase-num">01</div>
-        <div class="phase-info">
-          <h3>Foundation Phase — Build the Base</h3>
-          <p>বাংলা ব্যাকরণ, English Grammar, বেসিক গণিতের সূত্র আয়ত্ত করুন। NCTB বোর্ড বই দিয়ে শুরু।</p>
-        </div>
-        <span class="phase-weeks">Week 1–6</span>
-      </div>
-
-      <div class="phase-strip">
-        <div class="phase-num">02</div>
-        <div class="phase-info">
-          <h3>Content Mastery — Deep Dive</h3>
-          <p>সাধারণ জ্ঞান (বাংলাদেশ + আন্তর্জাতিক), কম্পিউটার, টেকনিক্যাল বিষয় পুরোপুরি শেষ করুন।</p>
-        </div>
-        <span class="phase-weeks">Week 7–18</span>
-      </div>
-
-      <div class="phase-strip">
-        <div class="phase-num">03</div>
-        <div class="phase-info">
-          <h3>Practice & Mock Test Phase</h3>
-          <p>প্রতিদিন ১টি করে পূর্ণাঙ্গ মডেল টেস্ট দিন। বিগত ১০ বছরের প্রশ্ন সমাধান করুন।</p>
-        </div>
-        <span class="phase-weeks">Week 19–28</span>
-      </div>
-
-      <div class="phase-strip">
-        <div class="phase-num">04</div>
-        <div class="phase-info">
-          <h3>Written Exam Preparation</h3>
-          <p>রচনা, পত্র লিখন, বঙ্গানুবাদ, Comprehension — প্রতিদিন লিখে প্র্যাকটিস করুন।</p>
-        </div>
-        <span class="phase-weeks">Week 29–36</span>
-      </div>
-
-      <div class="phase-strip">
-        <div class="phase-num">05</div>
-        <div class="phase-info">
-          <h3>Viva + Final Revision</h3>
-          <p>নিজ জেলা, সাবজেক্ট-রিলেটেড প্রশ্ন, সাম্প্রতিক ঘটনা — মিরর প্র্যাকটিস করুন।</p>
-        </div>
-        <span class="phase-weeks">Week 37–40</span>
-      </div>
-
-      <div class="sep"></div>
-      <h2 class="section-title">Newspapers to Follow Daily</h2>
-      <div class="two-col">
-        <div style="background:var(--surface); border-radius:10px; padding:14px; border:1px solid var(--border);">
-          <p style="font-size:12px; font-weight:800; color:var(--accent2); margin-bottom:8px;">বাংলা পত্রিকা</p>
-          <p style="font-size:13px; font-family:'Tiro Bangla',serif; color:var(--muted); line-height:2">
-            📰 প্রথম আলো<br>
-            📰 কালের কণ্ঠ<br>
-            📰 যুগান্তর<br>
-            📰 বাংলাদেশ প্রতিদিন
-          </p>
-        </div>
-        <div style="background:var(--surface); border-radius:10px; padding:14px; border:1px solid var(--border);">
-          <p style="font-size:12px; font-weight:800; color:var(--accent2); margin-bottom:8px;">English Newspapers</p>
-          <p style="font-size:13px; color:var(--muted); line-height:2">
-            📰 The Daily Star<br>
-            📰 The Financial Express<br>
-            📰 The Business Standard<br>
-            📰 Dhaka Tribune
-          </p>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-      <h2 class="section-title">Online Resources</h2>
-      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:10px;">
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px;">
-          <p style="font-size:12px; font-weight:800; color:var(--accent);">Biddabari</p>
-          <p style="font-size:11px; color:var(--muted); margin-top:4px;">biddabari.com — ৯ম-১৩তম গ্রেড জব কোর্স, ডেইলি নিউজ, মডেল টেস্ট</p>
-        </div>
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px;">
-          <p style="font-size:12px; font-weight:800; color:var(--accent);">BCS Study</p>
-          <p style="font-size:11px; color:var(--muted); margin-top:4px;">bcsstudy.com — BCS + non-cadre study materials, MCQ bank</p>
-        </div>
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px;">
-          <p style="font-size:12px; font-weight:800; color:var(--accent);">10 Minute School</p>
-          <p style="font-size:11px; color:var(--muted); margin-top:4px;">10minuteschool.com — বাংলা ও English ভিডিও লেকচার</p>
-        </div>
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px;">
-          <p style="font-size:12px; font-weight:800; color:var(--accent);">BDjobs</p>
-          <p style="font-size:11px; color:var(--muted); margin-top:4px;">bd-jobs.com / bdjobs.com — সর্বশেষ সার্কুলার ট্র্যাক করুন</p>
-        </div>
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px;">
-          <p style="font-size:12px; font-weight:800; color:var(--accent);">YouTube</p>
-          <p style="font-size:11px; color:var(--muted); margin-top:4px;">Udvash, Onnorokom Pathshala — গণিত ও সাধারণ জ্ঞান ভিডিও</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<!-- INSTALL BANNER -->
+<div id="install-banner">
+  <p>📱 অ্যাপ হিসেবে ইনস্টল করুন — অফলাইনেও কাজ করবে!</p>
+  <button id="install-btn">Install</button>
+  <button id="install-dismiss">✕</button>
 </div>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-title">
+    <span class="app-title-en">Gov Job Prep</span>
+    <span class="app-title-bn">চাকরির প্রস্তুতি</span>
+  </div>
+  <div class="header-pills">
+    <div class="hpill">
+      <span class="hpill-num" id="h-hours">0h</span>
+      <span class="hpill-label">Hours</span>
+    </div>
+    <div class="hpill">
+      <span class="hpill-num" id="h-topics">0%</span>
+      <span class="hpill-label">Topics</span>
+    </div>
+    <div class="hpill">
+      <span class="hpill-num" id="h-streak">🔥0</span>
+      <span class="hpill-label">Streak</span>
+    </div>
+  </div>
+</header>
+
+<!-- PAGES -->
+
+<!-- OVERVIEW -->
+<div id="page-overview" class="page active">
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-num" id="ov-days" style="color:var(--accent)">0</div><div class="stat-label">Study Days</div></div>
+    <div class="stat-card"><div class="stat-num" id="ov-hours" style="color:var(--accent2)">0</div><div class="stat-label">Hours Logged</div></div>
+    <div class="stat-card"><div class="stat-num" id="ov-topics" style="color:var(--accent4)">0</div><div class="stat-label">Topics Done</div></div>
+    <div class="stat-card"><div class="stat-num" id="ov-streak" style="color:var(--accent3)">0</div><div class="stat-label">Day Streak</div></div>
+  </div>
+
+  <div class="alert alert-gold">
+    <span class="alert-icon">⚡</span>
+    <span>প্রতিটি পরীক্ষায় বিগত বছরের প্রশ্ন থেকে ৪০–৫০% কমন থাকে। ৮–১০ মাস নিয়মিত পড়াশোনাই সাফল্যের চাবিকাঠি।</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">বিষয়ভিত্তিক অগ্রগতি</div>
+    <div id="subj-progress"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">এই সপ্তাহের স্ট্রিক</div>
+    <div class="weekday-labels">
+      <span>রবি</span><span>সোম</span><span>মঙ্গল</span><span>বুধ</span>
+      <span>বৃহঃ</span><span>শুক্র</span><span>শনি</span>
+    </div>
+    <div class="streak-grid" id="streak-week"></div>
+    <p style="font-size:11px;color:var(--muted);line-height:1.8;">
+      🟩 পড়াশোনা করেছি &nbsp;|&nbsp; 🟪 রেস্ট ডে (রবি/বুধ) &nbsp;|&nbsp; ⬜ এখনো হয়নি
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">পরীক্ষার ধাপসমূহ <span style="margin-left:4px"><span class="badge badge-gold">Prelim 100</span> + <span class="badge badge-purple">Written 200</span> + <span class="badge badge-green">Viva</span></span></div>
+    <div class="table-wrap">
+      <table class="exam-table">
+        <thead><tr><th>ধাপ</th><th>বিষয়</th><th>নম্বর</th><th>পাস</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4"><span class="badge badge-gold">প্রিলিমিনারি</span></td><td style="font-family:'Tiro Bangla',serif">বাংলা</td><td>20</td><td>40%</td></tr>
+          <tr><td>English</td><td>20</td><td>40%</td></tr>
+          <tr><td style="font-family:'Tiro Bangla',serif">সাধারণ জ্ঞান</td><td>20</td><td>40%</td></tr>
+          <tr><td>Technical</td><td>40</td><td>40%</td></tr>
+          <tr><td rowspan="4"><span class="badge badge-purple">লিখিত</span></td><td style="font-family:'Tiro Bangla',serif">বাংলা</td><td>40</td><td>25%</td></tr>
+          <tr><td>English</td><td>40</td><td>25%</td></tr>
+          <tr><td style="font-family:'Tiro Bangla',serif">সাধারণ জ্ঞান</td><td>40</td><td>25%</td></tr>
+          <tr><td>Technical</td><td>80</td><td>40%</td></tr>
+          <tr><td><span class="badge badge-green">ভাইভা</span></td><td style="font-family:'Tiro Bangla',serif">৯ম গ্রেড</td><td>100</td><td>50%</td></tr>
+          <tr><td></td><td style="font-family:'Tiro Bangla',serif">১০ম–১৩তম</td><td>50</td><td>50%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="page-schedule" class="page">
+  <div class="alert alert-gold">
+    <span class="alert-icon">📌</span>
+    <span>রবিবার ও বুধবার = রেস্ট ডে। শুধু ১ ঘণ্টা পত্রিকা পড়ুন। বাকি ৫ দিন প্রতিদিন ৫ ঘণ্টা মূল পড়াশোনা।</span>
+  </div>
+
+  <div class="section-label">সোম, মঙ্গল, বৃহঃ, শুক্র, শনি — ৫ ঘণ্টা</div>
+
+  <div class="time-block"><div class="time-pill work">৬:০০–৯:০০</div><div class="block-info"><strong>Remote Job শুরু</strong><span>সকালে অফিসের কাজ</span></div></div>
+  <div class="time-block"><div class="time-pill">৯:০০–১০:০০</div><div class="block-info"><strong>📖 Block 1 — বাংলা / English</strong><span>ব্যাকরণ, সাহিত্য বা Grammar (alternating)</span></div></div>
+  <div class="time-block"><div class="time-pill work">১০:০০–১:০০</div><div class="block-info"><strong>Remote Job চলমান</strong><span>অফিসের কাজ</span></div></div>
+  <div class="time-block"><div class="time-pill">১:০০–২:০০</div><div class="block-info"><strong>📐 Block 2 — গণিত</strong><span>Lunch break-এ পাটিগণিত, বীজগণিত, জ্যামিতি</span></div></div>
+  <div class="time-block"><div class="time-pill work">২:০০–৫:০০</div><div class="block-info"><strong>Remote Job বিকেল</strong><span>অফিস শেষ পর্যায়</span></div></div>
+  <div class="time-block"><div class="time-pill gym">৫:০০–৭:০০</div><div class="block-info"><strong>💪 Gym</strong><span>২ ঘণ্টা ব্যায়াম — অডিও নোট / পডকাস্ট শুনতে পারেন</span></div></div>
+  <div class="time-block"><div class="time-pill">৭:৩০–৯:৩০</div><div class="block-info"><strong>🌍 Block 3–4 — সাধারণ জ্ঞান + কম্পিউটার</strong><span>বাংলাদেশ ও আন্তর্জাতিক বিষয়, ICT — ২ ঘণ্টা</span></div></div>
+  <div class="time-block"><div class="time-pill">৯:৩০–১০:৩০</div><div class="block-info"><strong>📝 Block 5 — MCQ / Written Practice</strong><span>বিগত প্রশ্ন বিশ্লেষণ, রচনা, পত্র লিখন</span></div></div>
+  <div class="time-block"><div class="time-pill rest">১০:৩০+</div><div class="block-info"><strong>🌙 বিশ্রাম</strong><span>পরের দিনের প্ল্যান করুন, ঘুমান</span></div></div>
+
+  <div class="sep"></div>
+  <div class="section-label">রবিবার ও বুধবার — রেস্ট ডে (সর্বোচ্চ ১ ঘণ্টা)</div>
+  <div class="time-block"><div class="time-pill off">সারাদিন</div><div class="block-info"><strong>সম্পূর্ণ বিশ্রাম</strong><span>কোনো ভারী পড়া নয়</span></div></div>
+  <div class="time-block"><div class="time-pill" style="background:var(--accent)">১ ঘণ্টা</div><div class="block-info"><strong>📰 পত্রিকা পড়ুন</strong><span>প্রথম আলো / Daily Star — সাম্প্রতিক ঘটনা নোট করুন</span></div></div>
+
+  <div class="sep"></div>
+  <div class="section-label">সাপ্তাহিক বিষয় বিতরণ</div>
+  <div class="table-wrap">
+    <table class="exam-table">
+      <thead><tr><th>Block</th><th>সোম</th><th>মঙ্গল</th><th>বৃহঃ</th><th>শুক্র</th><th>শনি</th></tr></thead>
+      <tbody>
+        <tr><td><strong>B1 (1h)</strong></td><td style="color:var(--accent)">বাংলা ব্যাকরণ</td><td style="color:var(--accent2)">English Grammar</td><td style="color:var(--accent)">বাংলা সাহিত্য</td><td style="color:var(--accent2)">English Writing</td><td style="color:var(--accent)">বাংলা Revision</td></tr>
+        <tr><td><strong>B2 (1h)</strong></td><td style="color:var(--accent4)">পাটিগণিত</td><td style="color:var(--accent4)">বীজগণিত</td><td style="color:var(--accent4)">জ্যামিতি</td><td style="color:var(--accent4)">মানসিক দক্ষতা</td><td style="color:var(--accent4)">গণিত Revision</td></tr>
+        <tr><td><strong>B3-4 (2h)</strong></td><td style="color:var(--accent3)">বাংলাদেশ বিষয়</td><td style="color:var(--accent3)">আন্তর্জাতিক</td><td style="color:var(--accent3)">বিজ্ঞান+ICT</td><td style="color:var(--accent3)">GK+কম্পিউটার</td><td style="color:var(--accent3)">Full MCQ Mock</td></tr>
+        <tr><td><strong>B5 (1h)</strong></td><td>Past Papers</td><td>Written Practice</td><td>Past Papers</td><td>Viva Prep</td><td>Weak Area Fix</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TOPICS -->
+<div id="page-topics" class="page">
+  <div id="topics-container"></div>
+</div>
+
+<!-- BOOKS -->
+<div id="page-books" class="page">
+  <div class="alert alert-gold">
+    <span class="alert-icon">📚</span>
+    <span>এই বইগুলো বিদ্যাবাড়ি গাইডলাইন ও অভিজ্ঞ পরীক্ষার্থীদের রিভিউর ভিত্তিতে বাছাই করা।</span>
+  </div>
+  <div id="books-container"></div>
+</div>
+
+<!-- LOG -->
+<div id="page-log" class="page">
+  <div class="card">
+    <div class="card-title">আজকের পড়া লগ করুন</div>
+    <div class="form-group">
+      <label>তারিখ</label>
+      <input type="date" id="log-date">
+    </div>
+    <div class="form-group">
+      <label>বিষয়</label>
+      <select id="log-subject">
+        <option>বাংলা</option>
+        <option>English</option>
+        <option>গণিত ও মানসিক দক্ষতা</option>
+        <option>সাধারণ জ্ঞান</option>
+        <option>কম্পিউটার ও ICT</option>
+        <option>Technical / Professional</option>
+        <option>Mock Test / Past Papers</option>
+        <option>Revision</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>ঘণ্টা</label>
+        <input type="number" id="log-hours" min="0.5" max="8" step="0.5" placeholder="যেমন: 2.5">
+      </div>
+      <div class="form-group">
+        <label>মুড</label>
+        <select id="log-mood">
+          <option>🔥 দারুণ</option>
+          <option>😊 ভালো</option>
+          <option>😐 ঠিকঠাক</option>
+          <option>😓 ক্লান্ত</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>নোট (কী পড়লেন)</label>
+      <textarea id="log-note" placeholder="আজকে কোন টপিক পড়লেন..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="addLog()">+ এন্ট্রি যোগ করুন</button>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div class="card-title" style="margin-bottom:0">পড়ার ইতিহাস</div>
+      <button class="btn btn-danger" style="width:auto;padding:8px 14px;font-size:11px;" onclick="clearLogs()">সব মুছুন</button>
+    </div>
+    <div id="log-entries"></div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div id="page-roadmap" class="page">
+  <div class="card">
+    <div class="card-title">১০ মাসের রোডম্যাপ <span class="badge badge-green" style="margin-left:4px">~40 সপ্তাহ</span></div>
+
+    <div class="phase-card"><div class="phase-num">01</div><div class="phase-info"><h3>Foundation — ভিত্তি তৈরি</h3><p>বাংলা ব্যাকরণ, English Grammar, বেসিক গণিতের সূত্র। NCTB বোর্ড বই দিয়ে শুরু।</p><div class="phase-wks"><span class="badge badge-gold">সপ্তাহ ১–৬</span></div></div></div>
+    <div class="phase-card"><div class="phase-num">02</div><div class="phase-info"><h3>Content Mastery — গভীর পাঠ</h3><p>সাধারণ জ্ঞান (বাংলাদেশ + আন্তর্জাতিক), কম্পিউটার, টেকনিক্যাল বিষয় সম্পূর্ণ শেষ করুন।</p><div class="phase-wks"><span class="badge badge-gold">সপ্তাহ ৭–১৮</span></div></div></div>
+    <div class="phase-card"><div class="phase-num">03</div><div class="phase-info"><h3>Practice Phase — মডেল টেস্ট</h3><p>প্রতিদিন ১টি মডেল টেস্ট। বিগত ১০ বছরের প্রশ্ন সমাধান। দুর্বল জায়গা চিহ্নিত করুন।</p><div class="phase-wks"><span class="badge badge-gold">সপ্তাহ ১৯–২৮</span></div></div></div>
+    <div class="phase-card"><div class="phase-num">04</div><div class="phase-info"><h3>Written Prep — লিখিত প্রস্তুতি</h3><p>রচনা, পত্র লিখন, বঙ্গানুবাদ, Comprehension — প্রতিদিন হাতে লিখে প্র্যাকটিস করুন।</p><div class="phase-wks"><span class="badge badge-gold">সপ্তাহ ২৯–৩৬</span></div></div></div>
+    <div class="phase-card"><div class="phase-num">05</div><div class="phase-info"><h3>Viva + Final — শেষ প্রস্তুতি</h3><p>নিজ জেলা, সাবজেক্ট প্রশ্ন, সাম্প্রতিক ঘটনা — মিরর প্র্যাকটিস করুন।</p><div class="phase-wks"><span class="badge badge-gold">সপ্তাহ ৩৭–৪০</span></div></div></div>
+
+    <div class="sep"></div>
+    <div class="section-label">প্রতিদিনের পত্রিকা</div>
+    <div class="resource-card"><h4>বাংলা পত্রিকা</h4><p>📰 প্রথম আলো &nbsp;|&nbsp; 📰 কালের কণ্ঠ &nbsp;|&nbsp; 📰 যুগান্তর &nbsp;|&nbsp; 📰 বাংলাদেশ প্রতিদিন</p></div>
+    <div class="resource-card"><h4>English Newspapers</h4><p>📰 The Daily Star &nbsp;|&nbsp; 📰 The Financial Express &nbsp;|&nbsp; 📰 Dhaka Tribune</p></div>
+
+    <div class="sep"></div>
+    <div class="section-label">অনলাইন রিসোর্স</div>
+    <div class="resource-card"><h4>🌐 Biddabari</h4><p>biddabari.com — ৯ম-১৩তম গ্রেড জব কোর্স, ডেইলি নিউজ, মডেল টেস্ট</p></div>
+    <div class="resource-card"><h4>🌐 BCS Study</h4><p>bcsstudy.com — BCS + non-cadre study materials, MCQ bank</p></div>
+    <div class="resource-card"><h4>🌐 10 Minute School</h4><p>10minuteschool.com — বাংলা ও English ভিডিও লেকচার</p></div>
+    <div class="resource-card"><h4>▶️ YouTube</h4><p>Udvash, Onnorokom Pathshala — গণিত ও সাধারণ জ্ঞান ভিডিও</p></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showPage('overview',this)">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">Overview</span>
+  </button>
+  <button class="nav-item" onclick="showPage('schedule',this)">
+    <span class="nav-icon">⏰</span>
+    <span class="nav-label">Routine</span>
+  </button>
+  <button class="nav-item" onclick="showPage('topics',this)">
+    <span class="nav-icon">📚</span>
+    <span class="nav-label">Topics</span>
+  </button>
+  <button class="nav-item" onclick="showPage('books',this)">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">Books</span>
+  </button>
+  <button class="nav-item" onclick="showPage('log',this)">
+    <span class="nav-icon">✏️</span>
+    <span class="nav-label">Log</span>
+  </button>
+  <button class="nav-item" onclick="showPage('roadmap',this)">
+    <span class="nav-icon">🗺️</span>
+    <span class="nav-label">Roadmap</span>
+  </button>
+</nav>
+
+<div id="toast"></div>
 
 <script>
 // ===== DATA =====
 const SUBJECTS = [
-  {
-    id: 'bangla', label: 'BANGLA', bn: 'বাংলা', cls: 'bangla',
-    topics: [
-      { id: 'b1', text: 'ভাষা ও ব্যকরণ, ধ্বনি ও বর্ণ' },
-      { id: 'b2', text: 'শব্দ প্রকরণ, সন্ধি' },
-      { id: 'b3', text: 'ণ-ত্ব ও ষ-ত্ব বিধান, বানান শুদ্ধিকরণ' },
-      { id: 'b4', text: 'উপসর্গ, অনুসর্গ, প্রকৃতি ও প্রত্যয়' },
-      { id: 'b5', text: 'সমাস, কারক ও বিভক্তি' },
-      { id: 'b6', text: 'বাক্য প্রকরণ, বাচ্য পরিবর্তন' },
-      { id: 'b7', text: 'বাগধারা, বাক্য সংকোচন, পারিভাষিক শব্দ' },
-      { id: 'b8', text: 'বাংলা সাহিত্যের প্রাচীন যুগ' },
-      { id: 'b9', text: 'বাংলা সাহিত্যের মধ্য যুগ' },
-      { id: 'b10', text: 'বাংলা সাহিত্যের আধুনিক যুগ' },
-      { id: 'b11', text: 'বিখ্যাত কবি-সাহিত্যিকদের উপাধি ও ছদ্মনাম' },
-      { id: 'b12', text: 'ভাষা আন্দোলন ও মুক্তিযুদ্ধ বিষয়ক সাহিত্য' },
-      { id: 'b13', text: 'সারাংশ ও সারমর্ম লেখন (Written)' },
-      { id: 'b14', text: 'পত্র লিখন: ব্যক্তিগত, আবেদন, ব্যবসায়িক' },
-      { id: 'b15', text: 'বঙ্গানুবাদ ও রচনা লেখন' },
-    ]
-  },
-  {
-    id: 'english', label: 'ENGLISH', bn: 'ইংরেজি', cls: 'english',
-    topics: [
-      { id: 'e1', text: 'Parts of Speech, Noun, Pronoun, Adjective' },
-      { id: 'e2', text: 'Verb, Group Verb / Phrasal Verb, Tense' },
-      { id: 'e3', text: 'Right form of Verb, Voice, Narration' },
-      { id: 'e4', text: 'Tag Question, Degree, Transformation of Sentence' },
-      { id: 'e5', text: 'Preposition, Conjunction, Article, Determiner' },
-      { id: 'e6', text: 'Idioms & Phrases, One Word Substitution' },
-      { id: 'e7', text: 'Synonyms & Antonyms, Spelling' },
-      { id: 'e8', text: 'Sentence Correction, Comprehension' },
-      { id: 'e9', text: 'Essay Writing (with hints)' },
-      { id: 'e10', text: 'Letter: Official / Semi-official / Business / Memo' },
-      { id: 'e11', text: 'Translation (Bengali to English)' },
-    ]
-  },
-  {
-    id: 'math', label: 'MATH', bn: 'গণিত ও মানসিক দক্ষতা', cls: 'math',
-    topics: [
-      { id: 'm1', text: 'সংখ্যা, ভগ্নাংশ, শতকরা' },
-      { id: 'm2', text: 'লাভ-ক্ষতি, সরল ও যৌগিক মুনাফা' },
-      { id: 'm3', text: 'ল.সা.গু ও গ.সা.গু' },
-      { id: 'm4', text: 'গড় ও বয়স সংক্রান্ত সমস্যা' },
-      { id: 'm5', text: 'অনুপাত, সমানুপাত ও মিশ্রণ' },
-      { id: 'm6', text: 'ঐকিক নিয়ম, ক্ষেত্রফল' },
-      { id: 'm7', text: 'বীজগাণিতিক সূত্র, উৎপাদকে বিশ্লেষণ' },
-      { id: 'm8', text: 'সূচক, লগারিদম, ধারা' },
-      { id: 'm9', text: 'জ্যামিতি: ত্রিভুজ, চতুর্ভুজ, বৃত্ত' },
-      { id: 'm10', text: 'ত্রিকোণমিতি ও ঘনবস্তু' },
-      { id: 'm11', text: 'মানসিক দক্ষতা (Mental Ability), IQ Test' },
-    ]
-  },
-  {
-    id: 'gk', label: 'GEN. KNOWLEDGE', bn: 'সাধারণ জ্ঞান', cls: 'gk',
-    topics: [
-      { id: 'g1', text: 'বাংলাদেশের ভূ-প্রকৃতি, নদ-নদী, পরিবেশ' },
-      { id: 'g2', text: 'মুঘল শাসন, ব্রিটিশ আমল, দেশ বিভাগ' },
-      { id: 'g3', text: 'বাংলাদেশের অভ্যুদয়ের ইতিহাস (১৯৫১–১৯৭১)' },
-      { id: 'g4', text: 'বাংলাদেশের সংবিধান' },
-      { id: 'g5', text: 'বাংলাদেশের অর্থনীতি ও সম্পদ' },
-      { id: 'g6', text: 'বাংলাদেশের গুরুত্বপূর্ণ প্রতিষ্ঠান ও ভাস্কর্য' },
-      { id: 'g7', text: 'বিশ্বের ভৌগোলিক পরিচিতি' },
-      { id: 'g8', text: 'মহাদেশ পরিচিতি (এশিয়া, ইউরোপ, আফ্রিকা)' },
-      { id: 'g9', text: 'জাতিসংঘ ও আন্তর্জাতিক সংস্থা' },
-      { id: 'g10', text: 'বৈশ্বিক অর্থনৈতিক প্রতিষ্ঠান (IMF, WB, WTO)' },
-      { id: 'g11', text: 'দৈনন্দিন বিজ্ঞান, বায়ু, তাপ, বিদ্যুৎ, আলো' },
-      { id: 'g12', text: 'বিশ্বের বিভিন্ন যুদ্ধ ও সংঘর্ষ' },
-      { id: 'g13', text: 'সাম্প্রতিক ঘটনাবলি (প্রতিদিন আপডেট)' },
-    ]
-  },
-  {
-    id: 'computer', label: 'COMPUTER & ICT', bn: 'কম্পিউটার ও তথ্য প্রযুক্তি', cls: 'computer',
-    topics: [
-      { id: 'c1', text: 'কম্পিউটারের মৌলিক তথ্য ও প্রজন্ম' },
-      { id: 'c2', text: 'হার্ডওয়্যার, সফটওয়্যার, অপারেটিং সিস্টেম' },
-      { id: 'c3', text: 'কম্পিউটার ভাইরাস ও নিরাপত্তা' },
-      { id: 'c4', text: 'ইন্টারনেট, ই-মেইল, সোশ্যাল নেটওয়ার্ক' },
-      { id: 'c5', text: 'নেটওয়ার্ক, টপোলজি, নেটওয়ার্ক ডিভাইস' },
-      { id: 'c6', text: 'তারবিহীন মাধ্যম (WiFi, Bluetooth, 4G/5G)' },
-      { id: 'c7', text: 'বিখ্যাত প্রযুক্তি প্রতিষ্ঠান (Google, Microsoft, Apple)' },
-      { id: 'c8', text: 'Typing Speed (বাংলায় ২৫, ইংরেজিতে ৩০ শব্দ/মিনিট)' },
-    ]
-  },
-  {
-    id: 'technical', label: 'PAST PAPERS', bn: 'বিগত প্রশ্ন ও মডেল টেস্ট', cls: 'technical',
-    topics: [
-      { id: 't1', text: 'বিগত ৫ বছরের প্রিলিমিনারি প্রশ্ন সমাধান' },
-      { id: 't2', text: 'বিগত ৫ বছরের লিখিত প্রশ্ন বিশ্লেষণ' },
-      { id: 't3', text: 'সাপ্তাহিক মডেল টেস্ট ১' },
-      { id: 't4', text: 'সাপ্তাহিক মডেল টেস্ট ২' },
-      { id: 't5', text: 'সাপ্তাহিক মডেল টেস্ট ৩' },
-      { id: 't6', text: 'সাপ্তাহিক মডেল টেস্ট ৪' },
-      { id: 't7', text: 'Full Mock Prelim (100 marks, 60 min)' },
-      { id: 't8', text: 'Full Mock Written (200 marks, 4 hrs)' },
-      { id: 't9', text: 'Mock Viva Preparation' },
-      { id: 't10', text: 'Weak Topic Identification & Re-study' },
-    ]
-  }
+  { id:'bangla', en:'BANGLA', bn:'বাংলা', cls:'bangla', fill:'fill-bangla', topics:[
+    {id:'b1',t:'ভাষা ও ব্যকরণ, ধ্বনি ও বর্ণ'},
+    {id:'b2',t:'শব্দ প্রকরণ, সন্ধি'},
+    {id:'b3',t:'ণ-ত্ব ও ষ-ত্ব বিধান, বানান শুদ্ধিকরণ'},
+    {id:'b4',t:'উপসর্গ, অনুসর্গ, প্রকৃতি ও প্রত্যয়'},
+    {id:'b5',t:'সমাস, কারক ও বিভক্তি'},
+    {id:'b6',t:'বাক্য প্রকরণ, বাচ্য পরিবর্তন'},
+    {id:'b7',t:'বাগধারা, বাক্য সংকোচন, পারিভাষিক শব্দ'},
+    {id:'b8',t:'বাংলা সাহিত্যের প্রাচীন যুগ'},
+    {id:'b9',t:'বাংলা সাহিত্যের মধ্য যুগ'},
+    {id:'b10',t:'বাংলা সাহিত্যের আধুনিক যুগ'},
+    {id:'b11',t:'বিখ্যাত কবি-সাহিত্যিকদের উপাধি ও ছদ্মনাম'},
+    {id:'b12',t:'ভাষা আন্দোলন ও মুক্তিযুদ্ধ বিষয়ক সাহিত্য'},
+    {id:'b13',t:'সারাংশ ও সারমর্ম লেখন (Written)'},
+    {id:'b14',t:'পত্র লিখন: ব্যক্তিগত, আবেদন, ব্যবসায়িক'},
+    {id:'b15',t:'বঙ্গানুবাদ ও রচনা লেখন'},
+  ]},
+  { id:'english', en:'ENGLISH', bn:'ইংরেজি', cls:'english', fill:'fill-english', topics:[
+    {id:'e1',t:'Parts of Speech, Noun, Pronoun, Adjective'},
+    {id:'e2',t:'Verb, Group Verb / Phrasal Verb, Tense'},
+    {id:'e3',t:'Right form of Verb, Voice, Narration'},
+    {id:'e4',t:'Tag Question, Degree, Transformation of Sentence'},
+    {id:'e5',t:'Preposition, Conjunction, Article, Determiner'},
+    {id:'e6',t:'Idioms & Phrases, One Word Substitution'},
+    {id:'e7',t:'Synonyms & Antonyms, Spelling'},
+    {id:'e8',t:'Sentence Correction, Comprehension'},
+    {id:'e9',t:'Essay Writing (with hints)'},
+    {id:'e10',t:'Letter: Official / Semi-official / Business / Memo'},
+    {id:'e11',t:'Translation (Bengali to English)'},
+  ]},
+  { id:'math', en:'MATH', bn:'গণিত ও মানসিক দক্ষতা', cls:'math', fill:'fill-math', topics:[
+    {id:'m1',t:'সংখ্যা, ভগ্নাংশ, শতকরা'},
+    {id:'m2',t:'লাভ-ক্ষতি, সরল ও যৌগিক মুনাফা'},
+    {id:'m3',t:'ল.সা.গু ও গ.সা.গু'},
+    {id:'m4',t:'গড় ও বয়স সংক্রান্ত সমস্যা'},
+    {id:'m5',t:'অনুপাত, সমানুপাত ও মিশ্রণ'},
+    {id:'m6',t:'ঐকিক নিয়ম, ক্ষেত্রফল'},
+    {id:'m7',t:'বীজগাণিতিক সূত্র, উৎপাদকে বিশ্লেষণ'},
+    {id:'m8',t:'সূচক, লগারিদম, ধারা'},
+    {id:'m9',t:'জ্যামিতি: ত্রিভুজ, চতুর্ভুজ, বৃত্ত'},
+    {id:'m10',t:'ত্রিকোণমিতি ও ঘনবস্তু'},
+    {id:'m11',t:'মানসিক দক্ষতা (Mental Ability), IQ Test'},
+  ]},
+  { id:'gk', en:'GEN. KNOWLEDGE', bn:'সাধারণ জ্ঞান', cls:'gk', fill:'fill-gk', topics:[
+    {id:'g1',t:'বাংলাদেশের ভূ-প্রকৃতি, নদ-নদী, পরিবেশ'},
+    {id:'g2',t:'মুঘল শাসন, ব্রিটিশ আমল, দেশ বিভাগ'},
+    {id:'g3',t:'বাংলাদেশের অভ্যুদয়ের ইতিহাস (১৯৫১–১৯৭১)'},
+    {id:'g4',t:'বাংলাদেশের সংবিধান'},
+    {id:'g5',t:'বাংলাদেশের অর্থনীতি ও সম্পদ'},
+    {id:'g6',t:'বাংলাদেশের গুরুত্বপূর্ণ প্রতিষ্ঠান ও ভাস্কর্য'},
+    {id:'g7',t:'বিশ্বের ভৌগোলিক পরিচিতি'},
+    {id:'g8',t:'মহাদেশ পরিচিতি (এশিয়া, ইউরোপ, আফ্রিকা)'},
+    {id:'g9',t:'জাতিসংঘ ও আন্তর্জাতিক সংস্থা'},
+    {id:'g10',t:'বৈশ্বিক অর্থনৈতিক প্রতিষ্ঠান (IMF, WB, WTO)'},
+    {id:'g11',t:'দৈনন্দিন বিজ্ঞান, বায়ু, তাপ, বিদ্যুৎ, আলো'},
+    {id:'g12',t:'বিশ্বের বিভিন্ন যুদ্ধ ও সংঘর্ষ'},
+    {id:'g13',t:'সাম্প্রতিক ঘটনাবলি (প্রতিদিন আপডেট)'},
+  ]},
+  { id:'computer', en:'COMPUTER & ICT', bn:'কম্পিউটার ও তথ্য প্রযুক্তি', cls:'computer', fill:'fill-computer', topics:[
+    {id:'c1',t:'কম্পিউটারের মৌলিক তথ্য ও প্রজন্ম'},
+    {id:'c2',t:'হার্ডওয়্যার, সফটওয়্যার, অপারেটিং সিস্টেম'},
+    {id:'c3',t:'কম্পিউটার ভাইরাস ও নিরাপত্তা'},
+    {id:'c4',t:'ইন্টারনেট, ই-মেইল, সোশ্যাল নেটওয়ার্ক'},
+    {id:'c5',t:'নেটওয়ার্ক, টপোলজি, নেটওয়ার্ক ডিভাইস'},
+    {id:'c6',t:'তারবিহীন মাধ্যম (WiFi, Bluetooth, 4G/5G)'},
+    {id:'c7',t:'বিখ্যাত প্রযুক্তি প্রতিষ্ঠান (Google, Microsoft, Apple)'},
+    {id:'c8',t:'Typing Speed (বাংলায় ২৫, ইংরেজিতে ৩০ শব্দ/মিনিট)'},
+  ]},
+  { id:'technical', en:'PAST PAPERS & MOCK', bn:'বিগত প্রশ্ন ও মডেল টেস্ট', cls:'technical', fill:'fill-technical', topics:[
+    {id:'t1',t:'বিগত ৫ বছরের প্রিলিমিনারি প্রশ্ন সমাধান'},
+    {id:'t2',t:'বিগত ৫ বছরের লিখিত প্রশ্ন বিশ্লেষণ'},
+    {id:'t3',t:'সাপ্তাহিক মডেল টেস্ট ১'},
+    {id:'t4',t:'সাপ্তাহিক মডেল টেস্ট ২'},
+    {id:'t5',t:'সাপ্তাহিক মডেল টেস্ট ৩'},
+    {id:'t6',t:'সাপ্তাহিক মডেল টেস্ট ৪'},
+    {id:'t7',t:'Full Mock Prelim (100 marks, 60 min)'},
+    {id:'t8',t:'Full Mock Written (200 marks, 4 hrs)'},
+    {id:'t9',t:'Mock Viva Preparation'},
+    {id:'t10',t:'Weak Topic Identification & Re-study'},
+  ]},
 ];
 
 const BOOKS = [
-  { subject: 'বাংলা', color: 'var(--accent)', title: 'MP3 বাংলা ভাষা ও সাহিত্য', author: 'MP3 Publications', note: 'ব্যাকরণ ও সাহিত্য উভয়ের জন্য সর্বোচ্চ কার্যকর' },
-  { subject: 'বাংলা', color: 'var(--accent)', title: 'অগ্রদূত বাংলা', author: 'মফিজুল ইসলাম মিলন', note: 'বিগত প্রশ্ন বিশ্লেষণসহ সম্পূর্ণ গাইড' },
-  { subject: 'বাংলা', color: 'var(--accent)', title: 'প্রফেসর\'স বাংলা ভাষা ও সাহিত্য', author: 'Professors Publications', note: 'MCQ + Written উভয়ের জন্য' },
-  { subject: 'বাংলা', color: 'var(--accent)', title: 'সাহিত্য কথা', author: 'রানা ঘোষ', note: 'Written পরীক্ষার জন্য সাহিত্য বিশ্লেষণ' },
-  { subject: 'English', color: 'var(--accent2)', title: 'Classroom MCQ English Grammar & Literature', author: 'M.I. Prodhan Mukul', note: 'সবচেয়ে কমন থেকে প্রশ্ন — Must have' },
-  { subject: 'English', color: 'var(--accent2)', title: 'Master English', author: 'Md. Jahangir Alam', note: 'Vocabulary + Grammar combined' },
-  { subject: 'English', color: 'var(--accent2)', title: 'Oracle Competitive English', author: 'Oracle Publications', note: 'Competitive exam-specific patterns' },
-  { subject: 'English', color: 'var(--accent2)', title: 'A Passage to the English Language', author: 'S.M. Zakir Hussain', note: 'Written English-এর জন্য সেরা' },
-  { subject: 'গণিত', color: 'var(--accent4)', title: 'Khairul\'s Basic Math', author: 'Khairul Alam', note: 'বাংলাদেশে সবচেয়ে পরীক্ষিত গণিত বই' },
-  { subject: 'গণিত', color: 'var(--accent4)', title: 'Ashraful\'s Math Cocktail Preli', author: 'Ashraful Islam', note: 'Prelim-specific shortcuts ও tricks' },
-  { subject: 'গণিত', color: 'var(--accent4)', title: 'Professors Math MCQ Aid (সূত্র ভাণ্ডার)', author: 'Professors Publications', note: 'সব সূত্র এক জায়গায়' },
-  { subject: 'সাধারণ জ্ঞান', color: 'var(--accent3)', title: '৫১তম BCS Digest Plus', author: 'বিদ্যাবাড়ি', note: 'বাংলাদেশ ও আন্তর্জাতিক সবচেয়ে আপডেটেড' },
-  { subject: 'সাধারণ জ্ঞান', color: 'var(--accent3)', title: 'MP3 বাংলাদেশ ও আন্তর্জাতিক বিষয়াবলি', author: 'MP3 Publications', note: 'বিস্তারিত তথ্যসহ সেরা GK বই' },
-  { subject: 'সাধারণ জ্ঞান', color: 'var(--accent3)', title: 'প্রফেসর\'স বাংলাদেশ ও আন্তর্জাতিক বিষয়াবলি', author: 'Professors Publications', note: 'সর্বাধিক MCQ প্র্যাকটিস' },
-  { subject: 'সাধারণ জ্ঞান', color: 'var(--accent3)', title: 'ব্যাসিক ভিউ', author: 'মো. নাঈম হোসেন', note: 'সংক্ষিপ্ত ও কার্যকর সাধারণ জ্ঞান রিভিশন' },
-  { subject: 'কম্পিউটার', color: '#00d2ff', title: 'বেসিক কম্পিউটার ও তথ্য প্রযুক্তি', author: 'মো. আব্দুস সাত্তার', note: 'ICT সিলেবাস সম্পূর্ণ কভার করে' },
-  { subject: 'কম্পিউটার', color: '#00d2ff', title: 'ইজি কম্পিউটার ও তথ্য প্রযুক্তি', author: 'Dr. Md. Shahnewaz Hossain', note: 'সহজ ভাষায় ICT বেসিক' },
-  { subject: 'Newspaper', color: '#a855f7', title: 'প্রথম আলো (দৈনিক)', author: 'Daily Reading', note: 'প্রতিদিন সম্পাদকীয় ও সাম্প্রতিক ঘটনা পড়ুন' },
-  { subject: 'Newspaper', color: '#a855f7', title: 'The Daily Star', author: 'Daily Reading', note: 'English reading + current affairs practice' },
-  { subject: 'Board Book', color: 'var(--muted)', title: '৯ম-১০ম শ্রেণির বাংলা বোর্ড বই (NCTB)', author: 'NCTB', note: 'Foundation শুরু এখান থেকে' },
+  {s:'বাংলা',c:'var(--accent)',t:'MP3 বাংলা ভাষা ও সাহিত্য',a:'MP3 Publications',n:'ব্যাকরণ ও সাহিত্য উভয়ের জন্য সর্বোচ্চ কার্যকর'},
+  {s:'বাংলা',c:'var(--accent)',t:'অগ্রদূত বাংলা',a:'মফিজুল ইসলাম মিলন',n:'বিগত প্রশ্ন বিশ্লেষণসহ সম্পূর্ণ গাইড'},
+  {s:'বাংলা',c:'var(--accent)',t:"প্রফেসর'স বাংলা ভাষা ও সাহিত্য",a:'Professors Publications',n:'MCQ + Written উভয়ের জন্য'},
+  {s:'বাংলা',c:'var(--accent)',t:'সাহিত্য কথা',a:'রানা ঘোষ',n:'Written পরীক্ষার জন্য সাহিত্য বিশ্লেষণ'},
+  {s:'English',c:'var(--accent2)',t:'Classroom MCQ English Grammar & Literature',a:'M.I. Prodhan Mukul',n:'সবচেয়ে বেশি কমন আসে — Must have'},
+  {s:'English',c:'var(--accent2)',t:'Master English',a:'Md. Jahangir Alam',n:'Vocabulary + Grammar combined'},
+  {s:'English',c:'var(--accent2)',t:'Oracle Competitive English',a:'Oracle Publications',n:'Competitive exam-specific patterns'},
+  {s:'English',c:'var(--accent2)',t:'A Passage to the English Language',a:'S.M. Zakir Hussain',n:'Written English-এর জন্য সেরা'},
+  {s:'গণিত',c:'var(--accent4)',t:"Khairul's Basic Math",a:'Khairul Alam',n:'বাংলাদেশে সবচেয়ে পরীক্ষিত গণিত বই'},
+  {s:'গণিত',c:'var(--accent4)',t:"Ashraful's Math Cocktail Preli",a:'Ashraful Islam',n:'Prelim-specific shortcuts ও tricks'},
+  {s:'গণিত',c:'var(--accent4)',t:'Professors Math MCQ Aid — সূত্র ভাণ্ডার',a:'Professors Publications',n:'সব সূত্র এক জায়গায়'},
+  {s:'সাধারণ জ্ঞান',c:'var(--accent3)',t:'৫১তম BCS Digest Plus',a:'বিদ্যাবাড়ি',n:'বাংলাদেশ ও আন্তর্জাতিক — সবচেয়ে আপডেটেড'},
+  {s:'সাধারণ জ্ঞান',c:'var(--accent3)',t:'MP3 বাংলাদেশ ও আন্তর্জাতিক বিষয়াবলি',a:'MP3 Publications',n:'বিস্তারিত তথ্যসহ সেরা GK বই'},
+  {s:'সাধারণ জ্ঞান',c:'var(--accent3)',t:"প্রফেসর'স বাংলাদেশ ও আন্তর্জাতিক বিষয়াবলি",a:'Professors Publications',n:'সর্বাধিক MCQ প্র্যাকটিস'},
+  {s:'সাধারণ জ্ঞান',c:'var(--accent3)',t:'ব্যাসিক ভিউ',a:'মো. নাঈম হোসেন',n:'সংক্ষিপ্ত ও কার্যকর সাধারণ জ্ঞান রিভিশন'},
+  {s:'কম্পিউটার',c:'#00d2ff',t:'বেসিক কম্পিউটার ও তথ্য প্রযুক্তি',a:'মো. আব্দুস সাত্তার',n:'ICT সিলেবাস সম্পূর্ণ কভার করে'},
+  {s:'কম্পিউটার',c:'#00d2ff',t:'ইজি কম্পিউটার ও তথ্য প্রযুক্তি',a:'Dr. Md. Shahnewaz Hossain',n:'সহজ ভাষায় ICT বেসিক'},
+  {s:'পত্রিকা',c:'#a855f7',t:'প্রথম আলো (দৈনিক)',a:'Daily Reading',n:'প্রতিদিন সম্পাদকীয় ও সাম্প্রতিক ঘটনা পড়ুন'},
+  {s:'পত্রিকা',c:'#a855f7',t:'The Daily Star',a:'Daily Reading',n:'English reading + current affairs practice'},
+  {s:'Board Book',c:'var(--muted)',t:'৯ম-১০ম শ্রেণির বাংলা বোর্ড বই (NCTB)',a:'NCTB',n:'Foundation phase-এ শুরু এখান থেকে'},
 ];
 
 // ===== STATE =====
-let state = JSON.parse(localStorage.getItem('jobPrepState') || '{}');
-if (!state.done) state.done = [];
-if (!state.logs) state.logs = [];
+let S = JSON.parse(localStorage.getItem('jobprep2') || '{"done":[],"logs":[],"collapsed":{}}');
+function save() { localStorage.setItem('jobprep2', JSON.stringify(S)); }
 
-function save() { localStorage.setItem('jobPrepState', JSON.stringify(state)); }
-
-// ===== INIT =====
+// ===== BOOT =====
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('log-date').valueAsDate = new Date();
   renderTopics();
@@ -1346,208 +791,247 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLogs();
   renderOverview();
   renderStreakWeek();
+  updateHeader();
 });
 
-function switchTab(name) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+// ===== NAVIGATION =====
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0,0);
   if (name === 'overview') { renderOverview(); renderStreakWeek(); }
 }
 
+// ===== TOPICS =====
 function renderTopics() {
-  const container = document.getElementById('topics-container');
-  container.innerHTML = '';
+  const c = document.getElementById('topics-container');
+  c.innerHTML = '';
   SUBJECTS.forEach(sub => {
-    const total = sub.topics.length;
-    const done = sub.topics.filter(t => state.done.includes(t.id)).length;
-    const pct = Math.round((done / total) * 100);
+    const done = sub.topics.filter(t => S.done.includes(t.id)).length;
+    const pct = Math.round(done / sub.topics.length * 100);
+    const collapsed = S.collapsed[sub.id];
 
     const card = document.createElement('div');
     card.className = `subject-card ${sub.cls}`;
     card.innerHTML = `
-      <div class="subject-name">${sub.label}</div>
-      <div class="subject-bn">${sub.bn}</div>
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-      <div class="subject-stats"><span>${done}/${total} topics</span><span>${pct}%</span></div>
-      <div class="topic-list">
+      <div class="subject-header">
+        <div class="subject-name-wrap">
+          <div class="subject-en">${sub.en}</div>
+          <div class="subject-bn">${sub.bn}</div>
+        </div>
+        <div class="subject-prog-num">${pct}%</div>
+      </div>
+      <div class="prog-track"><div class="prog-fill ${sub.fill}" style="width:${pct}%"></div></div>
+      <div class="prog-sub">${done} / ${sub.topics.length} topics complete</div>
+      <button class="collapse-btn" onclick="toggleCollapse('${sub.id}')">
+        <span>${collapsed ? 'টপিক দেখুন' : 'টপিক লুকান'}</span>
+        <span>${collapsed ? '▼' : '▲'}</span>
+      </button>
+      <div class="topic-list" id="tlist-${sub.id}" style="display:${collapsed ? 'none' : 'block'}">
         ${sub.topics.map(t => `
-          <div class="topic-item ${state.done.includes(t.id) ? 'done' : ''}" onclick="toggleTopic('${t.id}')">
-            <div class="topic-check">${state.done.includes(t.id) ? '✓' : ''}</div>
-            <span class="topic-text">${t.text}</span>
+          <div class="topic-item ${S.done.includes(t.id)?'done':''}" onclick="toggleTopic('${t.id}')">
+            <div class="topic-check">${S.done.includes(t.id)?'✓':''}</div>
+            <span class="topic-text">${t.t}</span>
           </div>
         `).join('')}
       </div>
     `;
-    container.appendChild(card);
+    c.appendChild(card);
   });
+}
+
+function toggleCollapse(id) {
+  S.collapsed[id] = !S.collapsed[id];
+  save();
+  renderTopics();
 }
 
 function toggleTopic(id) {
-  const idx = state.done.indexOf(id);
-  if (idx >= 0) state.done.splice(idx, 1);
-  else state.done.push(id);
-  save();
-  renderTopics();
-  renderOverview();
-  showToast(idx >= 0 ? 'Unchecked!' : '✓ Topic marked done!');
+  const i = S.done.indexOf(id);
+  if (i >= 0) S.done.splice(i, 1); else S.done.push(id);
+  save(); renderTopics(); renderOverview(); updateHeader();
+  showToast(i >= 0 ? '↩ Unchecked' : '✓ টপিক সম্পন্ন!');
 }
 
+// ===== BOOKS =====
 function renderBooks() {
-  const container = document.getElementById('books-container');
-  container.innerHTML = '';
-  BOOKS.forEach(b => {
-    const card = document.createElement('div');
-    card.className = 'book-card';
-    card.innerHTML = `
-      <div class="book-subject" style="color:${b.color}">${b.subject}</div>
-      <div class="book-title">${b.title}</div>
-      <div class="book-author">✍️ ${b.author}</div>
-      <div class="book-note">💡 ${b.note}</div>
-    `;
-    container.appendChild(card);
-  });
+  const c = document.getElementById('books-container');
+  c.innerHTML = BOOKS.map(b => `
+    <div class="book-card">
+      <div class="book-subj" style="color:${b.c}">${b.s}</div>
+      <div class="book-title">${b.t}</div>
+      <div class="book-author">✍️ ${b.a}</div>
+      <div class="book-note">💡 ${b.n}</div>
+    </div>
+  `).join('');
 }
 
+// ===== LOG =====
 function addLog() {
   const date = document.getElementById('log-date').value;
   const subject = document.getElementById('log-subject').value;
   const hours = parseFloat(document.getElementById('log-hours').value);
   const mood = document.getElementById('log-mood').value;
   const note = document.getElementById('log-note').value;
-
-  if (!date || !hours || isNaN(hours)) { showToast('⚠️ Fill date and hours!'); return; }
-
-  state.logs.unshift({ date, subject, hours, mood, note, id: Date.now() });
-  save();
-  renderLogs();
-  renderOverview();
+  if (!date || !hours || isNaN(hours)) { showToast('⚠️ তারিখ ও ঘণ্টা দিন'); return; }
+  S.logs.unshift({ date, subject, hours, mood, note, id: Date.now() });
+  save(); renderLogs(); renderOverview(); updateHeader();
   document.getElementById('log-hours').value = '';
   document.getElementById('log-note').value = '';
-  showToast('✅ Entry logged!');
+  showToast('✅ এন্ট্রি যোগ হয়েছে!');
 }
 
 function renderLogs() {
-  const container = document.getElementById('log-entries');
-  if (!state.logs.length) {
-    container.innerHTML = '<p style="color:var(--muted); font-size:13px; text-align:center; padding:20px;">No entries yet. Start logging!</p>';
+  const c = document.getElementById('log-entries');
+  if (!S.logs.length) {
+    c.innerHTML = `<div class="empty"><div class="empty-icon">📒</div>এখনো কোনো এন্ট্রি নেই।<br>প্রথম পড়া লগ করুন!</div>`;
     return;
   }
-  container.innerHTML = state.logs.map(l => `
+  c.innerHTML = S.logs.map(l => `
     <div class="log-entry">
-      <div class="log-date">${l.date}</div>
-      <div class="log-body">
-        <div class="log-subject">${l.subject} • ${l.mood}</div>
-        <div class="log-note">${l.note || 'No notes'}</div>
+      <div class="log-top">
+        <span class="log-date">📅 ${l.date}</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="log-hours">${l.hours}h</span>
+          <button class="log-del" onclick="deleteLog(${l.id})">✕</button>
+        </div>
       </div>
-      <div class="log-hours">${l.hours}h</div>
-      <button class="btn btn-danger" onclick="deleteLog(${l.id})">✕</button>
+      <div class="log-subject">${l.subject} • ${l.mood}</div>
+      <div class="log-note">${l.note || 'কোনো নোট নেই'}</div>
     </div>
   `).join('');
 }
 
 function deleteLog(id) {
-  state.logs = state.logs.filter(l => l.id !== id);
-  save();
-  renderLogs();
-  renderOverview();
+  S.logs = S.logs.filter(l => l.id !== id);
+  save(); renderLogs(); renderOverview(); updateHeader();
 }
 
 function clearLogs() {
-  if (!confirm('Clear all log entries?')) return;
-  state.logs = [];
-  save();
-  renderLogs();
-  renderOverview();
+  if (!confirm('সব এন্ট্রি মুছে ফেলবেন?')) return;
+  S.logs = []; save(); renderLogs(); renderOverview(); updateHeader();
 }
 
+// ===== OVERVIEW =====
 function renderOverview() {
-  const totalHours = state.logs.reduce((s, l) => s + l.hours, 0);
-  const studyDays = new Set(state.logs.map(l => l.date)).size;
-  const allTopics = SUBJECTS.flatMap(s => s.topics);
-  const donePct = allTopics.length ? Math.round((state.done.length / allTopics.length) * 100) : 0;
+  const totalH = S.logs.reduce((s,l) => s+l.hours, 0);
+  const days = new Set(S.logs.map(l=>l.date)).size;
+  const allT = SUBJECTS.flatMap(s=>s.topics);
+  const pct = allT.length ? Math.round(S.done.length/allT.length*100) : 0;
   const streak = calcStreak();
 
-  // header stats
-  document.getElementById('stat-days').textContent = studyDays;
-  document.getElementById('stat-hours').textContent = totalHours.toFixed(1) + 'h';
-  document.getElementById('stat-topics').textContent = donePct + '%';
-  document.getElementById('stat-streak').textContent = '🔥' + streak;
-
-  // overview cards
-  document.getElementById('ov-days').textContent = studyDays;
-  document.getElementById('ov-hours').textContent = totalHours.toFixed(1);
-  document.getElementById('ov-topics').textContent = state.done.length;
+  document.getElementById('ov-days').textContent = days;
+  document.getElementById('ov-hours').textContent = totalH.toFixed(1);
+  document.getElementById('ov-topics').textContent = S.done.length;
   document.getElementById('ov-streak').textContent = streak;
 
-  // subject progress
-  const spContainer = document.getElementById('subject-progress-overview');
-  if (spContainer) {
-    spContainer.innerHTML = SUBJECTS.map(sub => {
-      const done = sub.topics.filter(t => state.done.includes(t.id)).length;
-      const pct = Math.round((done / sub.topics.length) * 100);
+  const sp = document.getElementById('subj-progress');
+  if (sp) {
+    sp.innerHTML = SUBJECTS.map(sub => {
+      const d = sub.topics.filter(t=>S.done.includes(t.id)).length;
+      const p = Math.round(d/sub.topics.length*100);
       return `
-        <div style="margin-bottom:12px;">
-          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;">
-            <span style="font-weight:700;">${sub.label}</span>
-            <span style="color:var(--muted)">${done}/${sub.topics.length} — ${pct}%</span>
+        <div class="prog-row">
+          <div class="prog-header">
+            <span class="prog-name">${sub.en}</span>
+            <span class="prog-pct">${d}/${sub.topics.length} — ${p}%</span>
           </div>
-          <div class="progress-bar-wrap" style="height:8px;">
-            <div class="progress-bar-fill ${sub.cls}" style="width:${pct}%"></div>
-          </div>
+          <div class="prog-track"><div class="prog-fill ${sub.fill}" style="width:${p}%"></div></div>
         </div>
       `;
     }).join('');
   }
 }
 
+function updateHeader() {
+  const totalH = S.logs.reduce((s,l)=>s+l.hours,0);
+  const allT = SUBJECTS.flatMap(s=>s.topics);
+  const pct = allT.length ? Math.round(S.done.length/allT.length*100) : 0;
+  const streak = calcStreak();
+  document.getElementById('h-hours').textContent = totalH.toFixed(1)+'h';
+  document.getElementById('h-topics').textContent = pct+'%';
+  document.getElementById('h-streak').textContent = '🔥'+streak;
+}
+
 function calcStreak() {
-  const dates = [...new Set(state.logs.map(l => l.date))].sort().reverse();
+  const dates = [...new Set(S.logs.map(l=>l.date))].sort().reverse();
   if (!dates.length) return 0;
   let streak = 0;
   const today = new Date();
   for (let i = 0; i < 365; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
+    const d = new Date(today); d.setDate(d.getDate()-i);
     const ds = d.toISOString().split('T')[0];
-    const dow = d.getDay(); // 0=Sun, 3=Wed
-    if (dow === 0 || dow === 3) { streak++; continue; } // rest days don't break streak
-    if (dates.includes(ds)) streak++;
-    else break;
+    const dow = d.getDay();
+    if (dow===0||dow===3) { streak++; continue; }
+    if (dates.includes(ds)) streak++; else break;
   }
-  return Math.max(0, streak - 1);
+  return Math.max(0, streak-1);
 }
 
 function renderStreakWeek() {
-  const container = document.getElementById('streak-week');
-  if (!container) return;
-  const studiedDates = new Set(state.logs.map(l => l.date));
+  const c = document.getElementById('streak-week');
+  if (!c) return;
+  const studied = new Set(S.logs.map(l=>l.date));
   const today = new Date();
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay());
-  container.innerHTML = '';
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(startOfWeek);
-    d.setDate(startOfWeek.getDate() + i);
+  const sow = new Date(today); sow.setDate(today.getDate()-today.getDay());
+  c.innerHTML = '';
+  for (let i=0; i<7; i++) {
+    const d = new Date(sow); d.setDate(sow.getDate()+i);
     const ds = d.toISOString().split('T')[0];
     const dow = d.getDay();
-    const isRest = dow === 0 || dow === 3;
-    const isStudied = studiedDates.has(ds);
-    const day = document.createElement('div');
-    day.className = 'streak-day' + (isStudied ? ' studied' : '') + (isRest && !isStudied ? ' rest-day' : '');
-    day.textContent = d.getDate();
-    day.title = isRest ? 'Rest Day' : (isStudied ? 'Studied ✓' : 'Not yet');
-    container.appendChild(day);
+    const isRest = dow===0||dow===3;
+    const isStudied = studied.has(ds);
+    const el = document.createElement('div');
+    el.className = 'sday'+(isStudied?' studied':'')+(isRest&&!isStudied?' rest':'');
+    el.textContent = d.getDate();
+    el.title = isRest?'Rest Day':(isStudied?'✓ Studied':'Not yet');
+    c.appendChild(el);
   }
 }
 
+// ===== TOAST =====
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
 }
+
+// ===== SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  });
+}
+
+// ===== PWA INSTALL =====
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('install-banner');
+  banner.classList.add('show');
+  // push content down
+  document.querySelector('.app-header').style.top = banner.offsetHeight + 'px';
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('install-banner').classList.remove('show');
+  document.querySelector('.app-header').style.top = '0';
+  if (outcome === 'accepted') showToast('🎉 অ্যাপ ইনস্টল হচ্ছে!');
+});
+
+document.getElementById('install-dismiss').addEventListener('click', () => {
+  document.getElementById('install-banner').classList.remove('show');
+  document.querySelector('.app-header').style.top = '0';
+});
+
+window.addEventListener('appinstalled', () => showToast('✅ অ্যাপ ইনস্টল সম্পন্ন!'));
 </script>
 </body>
 </html>
